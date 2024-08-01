@@ -1,0 +1,321 @@
+//q1,q2,q4,q7,q8
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+struct tree
+{
+    int data;
+    struct tree *left,*right;
+};
+
+struct tree *root=NULL;
+int totalNodes=0;
+int maxNode;
+
+void createTree(int val){
+    struct tree *newNode=(struct tree *)malloc(sizeof(struct tree));
+    newNode->data=val;
+    struct tree *temp=NULL;
+    if(root==NULL){
+        newNode->left=NULL;
+        newNode->right=NULL;
+        root=newNode;
+    }
+    else{
+        temp=root;
+        while (true)
+        {
+              if( val < temp->data && temp->left==NULL){
+                temp->left=newNode;
+                newNode->left=NULL;
+                newNode->right=NULL;
+                
+                break;
+              }
+              else if (val < temp->data && temp->left!=NULL)
+              {
+                
+                temp=temp->left;
+              }
+              else if( val > temp->data && temp->right==NULL){
+                temp->right=newNode;
+                newNode->left=NULL;
+                newNode->right=NULL;
+                
+                break;
+              }
+              else if (val > temp->data && temp->right!=NULL)
+              {
+                
+                temp=temp->right;
+              }
+              
+        }
+        
+    }
+
+}
+
+struct tree* createBSTRecursive(struct tree* rt, int val){
+    struct tree *newNode=(struct tree *)malloc(sizeof(struct tree));
+        newNode->left=NULL;
+        newNode->right=NULL;
+      newNode->data=val;
+    
+    if(rt==NULL){
+        rt=newNode;
+        return rt;
+    }
+    else{
+              if( val < rt->data && rt->left==NULL){
+                rt->left=newNode;
+              }
+              else if (val < rt->data && rt->left!=NULL)
+              {
+                createBSTRecursive(rt->left,val);
+              }
+              else if( val > rt->data && rt->right==NULL){
+                rt->right=newNode;             
+              }
+              else if (val > rt->data && rt->right!=NULL)
+              {
+                createBSTRecursive(rt->right,val);
+              }
+              
+        
+        
+    }
+}
+
+void inorderTraversal(struct tree *rt){
+  if(rt==NULL) return;
+  inorderTraversal(rt->left);
+  printf("\t%d",rt->data);
+  inorderTraversal(rt->right);
+}
+
+void postOrderTraversal(struct tree *rt) {
+    if (rt == NULL) return;
+    postOrderTraversal(rt->left);
+    postOrderTraversal(rt->right);
+    printf("\t%d", rt->data);
+}
+
+void preOrderTraversal(struct tree *rt){
+     if (rt == NULL) return;
+     printf("\t%d", rt->data);
+    postOrderTraversal(rt->left);
+    postOrderTraversal(rt->right); 
+}
+
+struct tree* searchNode(struct tree * rt,int element){
+  if(rt==NULL) {
+    return NULL;
+  }
+  else if (rt->data==element) return rt;
+  else{
+struct tree *left= searchNode(rt->left,element);
+if(left!=NULL) return left;
+
+return searchNode(rt->right,element);
+  }
+ 
+  
+  
+}
+
+
+void getTotalNodes(struct tree *rt) {
+    if (rt == NULL) return;
+    getTotalNodes(rt->left);
+     totalNodes++;
+    getTotalNodes(rt->right);
+   
+}
+
+void getHighestNode(struct tree *rt) {
+    if (rt == NULL) {
+        return;
+    }
+    if(rt->left==NULL && rt->right==NULL) {
+        maxNode=rt->data;
+        return;
+    }
+    else if (rt->left!=NULL && rt->right==NULL)
+    {
+       maxNode=rt->data;
+        return;
+    }
+    
+    getHighestNode(rt->right);
+   
+}
+
+
+int main(){
+
+    //for non recursive(q1)
+    // int ch;
+    // while (true)
+    // {
+    //     printf("Enter Node value [-1 for no node]");
+    //     scanf("%d",&ch);
+    //     if(ch!=-1) {
+    //         createTree(ch);
+    //         }
+    //         else{ break; }
+    // }
+
+
+   
+
+
+   //for  recursive(q2)
+  root=createBSTRecursive(root,50);
+  createBSTRecursive(root,25);
+   createBSTRecursive(root,100);
+   createBSTRecursive(root,5);
+   createBSTRecursive(root,28);
+
+
+
+    //(q4)
+  struct tree *nd=searchNode(root,50);
+  if(nd==NULL){
+    printf("\nNode not found...");
+  }
+  else{
+    printf("\nnode is found that is\t%d",nd->data);
+  }
+  
+    
+
+
+    //(q7)
+    inorderTraversal(root);
+    preOrderTraversal(root);
+    postOrderTraversal(root);
+
+    //(q8)
+        getTotalNodes(root);
+    printf("\n%d",totalNodes);
+
+    getHighestNode(root);
+    printf("\n%d",maxNode);
+    
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+//q5
+
+#include<stdio.h>
+#include<stdlib.h>
+
+struct tree
+{
+    char data;
+    struct tree *left, *right;
+};
+
+
+
+struct tree *root = NULL;
+
+struct tree* createBstRecursive(struct tree *rt, char val) {
+    if (rt == NULL) {
+        struct tree *newNode = (struct tree *)malloc(sizeof(struct tree));
+        newNode->data = val;
+        newNode->left = newNode->right = NULL;
+        return newNode;
+    }
+
+    if (rt->data > val) {
+        rt->left = createBstRecursive(rt->left, val);
+    } else if (rt->data < val) {
+        rt->right = createBstRecursive(rt->right, val);
+    }
+
+    return rt;
+}
+
+void inOrderTraversal(struct tree *rt) {
+    if (rt == NULL) return;
+    inOrderTraversal(rt->left);
+    printf("\t%c", rt->data);
+    inOrderTraversal(rt->right);
+    
+}
+
+
+
+int main() {
+    char name[] = "ronith";
+    int i;
+
+    for (i = 0; i < 6; i++) {
+        root = createBstRecursive(root, name[i]);
+    }
+
+  
+
+    inOrderTraversal(root);
+    
+
+    return 0;
+}
+-------------------------------------------------------------------------------------------------------------------------------
+//q6
+
+#include<stdio.h>
+#include<stdlib.h>
+
+
+
+ struct tree
+ {
+     int data;
+     struct tree *left, *right;
+ };
+
+struct tree *root = NULL;
+
+struct tree* createBstRecursive(struct tree *rt, int val) {
+    if (rt == NULL) {
+        struct tree *newNode = (struct tree *)malloc(sizeof(struct tree));
+        newNode->data = val;
+        newNode->left = newNode->right = NULL;
+        return newNode;
+    }
+
+    if (rt->data > val) {
+        rt->left = createBstRecursive(rt->left, val);
+    } else if (rt->data < val) {
+        rt->right = createBstRecursive(rt->right, val);
+    }
+
+    return rt;
+}
+
+
+ void inOrder(struct tree *rt) {     
+    if (rt == NULL) return;
+    inOrder(rt->left);
+    printf("\t%d", rt->data);
+    inOrder(rt->right);
+    
+}
+
+int main() {
+
+     int  arr[] = {5,8,9,1,2,7};
+    int i;
+
+     for (i = 0; i < 6; i++) {
+         root = createBstRecursive(root, arr[i]);
+    }
+
+     inOrder(root);
+
+    return 0;
+}

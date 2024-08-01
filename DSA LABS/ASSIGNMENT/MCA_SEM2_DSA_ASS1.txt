@@ -1,0 +1,386 @@
+1.
+#include<stdio.h>
+#include<stdbool.h>
+
+void printArray(int a[]){
+    printf("\n");
+ for (int i = 0; i < 6; i++)
+    {
+        printf("\t%d",a[i]);
+    }
+}
+void bubbleSort(int a[],int n){
+    int temp;
+    bool flag;
+    for (int i = 0; i < n; i++)
+    {
+        flag=false;
+        for(int j = 0; j < n-(i+1); j++)
+        {
+            if(a[j]>a[j+1]){
+                temp=a[j];
+                a[j]=a[j+1];
+                a[j+1]=temp;
+                flag=true;
+            }
+            
+        }
+   
+        if(!flag) break;
+        printf("\niteration->%d",i+1);
+        printArray(a);
+        
+    }
+   
+}
+
+
+
+int main(){
+    int a[]={27,15,39,21,28,70};
+    bubbleSort(a,6);
+    // printArray(a);
+   
+    
+    return 0;
+}
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+2.
+#include<stdio.h>
+#include<stdbool.h>
+
+void printArray(int a[]){
+    printf("\n");
+ for (int i = 0; i < 6; i++)
+    {
+        printf("\t%d",a[i]);
+    }
+}
+
+void insertion_sort(int a[],int n){
+    int temp,j,iteration=1;
+    for (int i = 1; i < n; i++)
+    {
+        temp=a[i];
+        for ( j = i-1; j >= 0; j--)
+        {
+           if(a[j]>temp){
+            a[j+1]=a[j];
+           }
+           else{
+            break;
+           }
+        }
+        a[j+1]=temp;
+        
+        printf("\niteration->%d",iteration++);
+        printArray(a);
+        
+    }
+    
+   
+}
+
+
+int main(){
+    int a[]={27,15,39,21,28,70};
+    insertion_sort(a,6);
+//   printArray(n);
+    
+    return 0;
+}
+
+////////////////////////////
+
+3.
+#include<stdio.h>
+#include<stdbool.h>
+
+void printArray(int a[]){
+    printf("\n");
+ for (int i = 0; i < 6; i++)
+    {
+        printf("\t%d",a[i]);
+    }
+}
+
+void selection_sort(int a[],int n){
+    for (int i = 0; i < n; i++)
+    {
+        int temp,j;
+        int minElm=a[i];
+        int minElmPos=i;
+        for( j=i+1; j<n; j++) {
+            if(minElm > a[j]){
+                minElm=a[j];
+                minElmPos=j;
+            }
+        }
+        temp=a[i];
+        a[i]=minElm;
+        a[minElmPos]=temp;
+        printf("\niteration->%d",i+1);
+        printArray(a);
+    }
+    
+ 
+}
+
+
+int main(){
+    int a[]={27,15,39,21,28,70};
+   selection_sort(a,6);
+    // printArray(a);
+    
+    return 0;
+}
+////////////////////
+
+4.
+
+#include <stdio.h>
+#include <stdbool.h>
+
+
+int iteration=1;
+void printArray(int a[]) {
+    printf("\n");
+    for (int i = 0; i < 6; i++) {
+        printf("\t%d", a[i]);
+    }
+}
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int partition(int a[], int s, int e) {
+    int count = 0;
+    int pivot = a[s];
+    for (int i = s + 1; i < e; i++) {
+        if (pivot > a[i]) {
+            count++;
+        }
+    }
+    int pivotIndex = s + count;
+    swap(&a[s], &a[pivotIndex]);
+    int x = s, y = e - 1;  
+    while (x < pivotIndex && y > pivotIndex) {
+        while (a[x] < pivot) {
+            x++;
+        }
+        while (a[y] > pivot) {
+            y--;
+        }
+        if (x < pivotIndex && y > pivotIndex) {
+            swap(&a[x++], &a[y--]);  
+        }
+    }
+    return pivotIndex;
+}
+
+void quick_sort(int a[], int s, int e) {
+
+    if (s >= e) return;
+    printf("\niteration->%d",iteration++);
+    printArray(a);
+    int pivotIndex = partition(a, s, e);
+    quick_sort(a, s, pivotIndex);
+    quick_sort(a, pivotIndex + 1, e);
+
+
+}
+
+int main() {
+    // int a[] = {27, 15, 39, 21, 28, 70};
+    int a[] = {6,5,4,3,2,1};
+    quick_sort(a, 0, 6);
+    return 0;
+}
+
+///////////
+
+5.
+
+#include<stdio.h>
+#include<stdbool.h>
+
+void printArray(int a[]){
+    printf("\n");
+ for (int i = 0; i < 6; i++)
+    {
+        printf("\t%d",a[i]);
+    }
+}
+
+void merge(int a[],int s,int e){
+    int mid=(s+e)/2;
+    int l1=mid-s+1;
+    int l2=e-mid;
+
+    int first[l1];
+    int second[l2];
+
+    int k=s;
+    for (int i = 0; i < l1; i++)
+    {
+       first[i]=a[k++];
+    }
+
+    for (int i = 0; i < l2; i++)
+    {
+       second[i]=a[k++];
+    }
+    int index1=0,index2=0;
+    k=s;
+    while (index1<l1 && index2<l2)
+    {
+        if(first[index1] < second[index2]){
+            a[k++]=first[index1++];
+        }
+        else{
+            a[k++]=second[index2++];
+        }
+    }
+
+    while (index1<l1)
+    {
+        a[k++]=first[index1++];
+    }
+
+    while (index2<l2)
+    {
+         a[k++]=second[index2++];
+    }
+}
+
+
+void mergesort(int a[],int s,int e){
+   if(s>=e) return;
+   int mid=(s+e)/2;
+   mergesort(a,s,mid);
+   mergesort(a,mid+1,e);
+   merge(a,s,e);
+}
+
+
+
+int main(){
+    int a[]={27,15,39,21,28,70};
+    mergesort(a,0,5);
+    printArray(a);
+    return 0;
+}
+
+///////////////
+
+6.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Function prototypes
+void swap(int* a, int* b);
+int partition(int arr[], int low, int high);
+void quickSort(int arr[], int low, int high);
+void bubbleSort(int arr[], int n);
+void generateRandomArray(int arr[], int size);
+void printArray(int arr[], int size);
+
+int main() {
+    const int size = 10000; 
+
+    int arr1[size], arr2[size];
+    clock_t start, end;
+    double cpu_time_used;
+
+    
+    generateRandomArray(arr1, size);
+    for (int i = 0; i < size; i++) {
+        arr2[i] = arr1[i];
+    }
+
+   
+    start = clock();
+    quickSort(arr1, 0, size - 1);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Quick Sort: %f seconds\n", cpu_time_used);
+
+    
+    start = clock();
+    bubbleSort(arr2, size);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Bubble Sort: %f seconds\n", cpu_time_used);
+
+    return 0;
+}
+
+
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+
+    swap(&arr[i + 1], &arr[high]);
+    return i + 1;
+}
+
+
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(&arr[j], &arr[j + 1]);
+            }
+        }
+    }
+}
+
+
+void generateRandomArray(int arr[], int size) {
+    srand(time(NULL));
+    for (int i = 0; i < size; i++) {
+        arr[i] = rand() % 1000; // Adjust the range as needed
+    }
+}
+
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+
+
