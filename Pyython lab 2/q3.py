@@ -1,0 +1,11 @@
+n1=10
+n2=22
+while(n1>=0):
+    if(n1==n2):
+        print(n1)
+        break
+    elif(n1<n2):
+        n2,n1=n1,n2
+    else:
+        n1=n1-n2
+print(5**8)
